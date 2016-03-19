@@ -76,7 +76,9 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
     NSString *searchText = [[searchController searchBar] text];
     if ([searchText length] < 2) return;//NOTE: I don't want to do search for to small text, result will most likely be not what user is looking for
-    if ([_geocoder isGeocoding] == false) { //NOTE: only when geocoder is not durring last request
+    if ([_geocoder isGeocoding] == true) {
+        [_geocoder cancelGeocode];
+    }
         __weak typeof(self) weakSelf = self;
         [_geocoder geocodeAddressString:searchText completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
             /*
@@ -100,7 +102,6 @@
                 });
             }
         }];
-    }
 }
 
 @end
